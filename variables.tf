@@ -1,3 +1,9 @@
+variable region {
+  type        = string
+  description = "AWS Region to deploy resources too"
+}
+
+
 variable "server_port" {
   description = "The port the server will use for HTTP requests"
   type        = number
@@ -20,4 +26,16 @@ variable "alb_security_group_name" {
   description = "The name of the security group for the ALB"
   type        = string
   default     = "terraform-example-alb"
+}
+
+variable sqlpassword {
+  type        = string
+  description = "SQL DB admin password"
+  sensitive = true
+}
+
+variable sqlusername {
+  type        = string
+  description = "SQL DB admin username"
+  sensitive = true
 }
