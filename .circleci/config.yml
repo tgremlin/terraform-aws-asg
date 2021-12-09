@@ -24,6 +24,7 @@ jobs:
             pwd
             terraform init -input=false
             terraform plan -out tfapply
+            terraform show -json tfapply > tfapply.json
       - persist_to_workspace:
           root: .
           paths:
