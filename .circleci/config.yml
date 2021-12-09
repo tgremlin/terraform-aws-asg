@@ -25,7 +25,8 @@ jobs:
             export TF_VAR_sqlusername=$sqlusername
             export TF_VAR_sqlpassword=$sqlpassword
             export TF_VAR_region=$AWS_DEFAULT_REGION
-            echo $AWS_DEFAULT_REGION
+            echo $TF_VAR_sqlusername
+            echo $TF_VAR_sqlpassword
       - run:
           name: terraform init & plan
           command: |
