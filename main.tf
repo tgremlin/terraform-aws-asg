@@ -9,13 +9,13 @@ terraform {
   backend "s3" {
   bucket = "at-terraform-backends"
   key    = "terraform/awsDemoASG/terraform.tfstate"
-  region = "${var.region}"
+  region = "us-east-1"
   }
 }
 
 provider "aws" {
   profile = "default"
-  region = "${var.region}"
+  region = "us-east-1"
 }
 
 resource "aws_vpc" "demo" {

@@ -1,9 +1,3 @@
-variable region {
-  type        = string
-  description = "AWS Region to deploy resources too"
-}
-
-
 variable "server_port" {
   description = "The port the server will use for HTTP requests"
   type        = number
