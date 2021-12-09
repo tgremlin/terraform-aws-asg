@@ -24,10 +24,10 @@ jobs:
             pwd
             terraform init -input=false
             terraform plan -out tfapply
-            terraform show -json tfapply > tfapply.json
+            terraform graph | dot -Tsvg > graph.svg
       - store_artifacts:
-          path: /tmp/project/tfapply.json
-          destination: tfapply.json      
+          path: /tmp/project/graph.svg
+          destination: graph.svg   
       - persist_to_workspace:
           root: .
           paths:
