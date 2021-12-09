@@ -65,7 +65,7 @@ jobs:
           name: install git
           command: |
             apt update
-            apt install giy -y
+            apt install git -y
       - run:
           name: install terraform docs
           command: |
