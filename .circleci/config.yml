@@ -42,9 +42,17 @@ jobs:
       - attach_workspace:
           at: /tmp/project
       - run:
-          name: terraform
+          name: terraform apply
           command: |
             terraform apply -auto-approve tfapply
+      - run:
+          name: install terraform docs
+          command: |
+            curl -Lo ./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-$(uname)-amd64.tar.gz
+            tar -xzf terraform-docs.tar.gz
+            chmod +x terraform-docs
+            mv terraform-docs /usr/local/bin/terraform-docs
+            terraform-docs
       - persist_to_workspace:
           root: .
           paths:
