@@ -103,3 +103,6 @@ The following outputs are exported:
 
 Description: The domain name of the load balancer
 <!-- END_TF_DOCS -->
+
+Dependency graph:
+[ASG graph .svg]
