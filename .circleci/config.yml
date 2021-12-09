@@ -60,7 +60,7 @@ jobs:
       - run:
           name: terraform create destroy plan
           command: |
-            terraform plan -destroy -out tfdestroy
+            terraform plan -destroy -var="sqlpassword=$sqlpassword" -var="sqlusername=$sqlusername" -out tfdestroy
       - persist_to_workspace:
           root: .
           paths:
