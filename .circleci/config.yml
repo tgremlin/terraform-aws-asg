@@ -20,16 +20,11 @@ jobs:
             apt install git -y
             apt install graphviz -y
       - run:
-          name: Export terraform environment variables
-          command: |
-            export TF_VAR_sqlusername=$sqlusername
-            export TF_VAR_sqlpassword=$sqlpassword
-      - run:
           name: terraform init & plan
           command: |
             terraform fmt -recursive .
             terraform init -input=false
-            terraform plan -out tfapply 
+            terraform plan -var="sqlpassword=$sqlpassword" -var="sqlusername=$sqlusername" -out tfapply
             terraform graph | dot -Tsvg > graph.svg
       - store_artifacts:
           path: /tmp/project/graph.svg
