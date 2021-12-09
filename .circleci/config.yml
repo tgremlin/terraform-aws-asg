@@ -45,6 +45,18 @@ jobs:
           name: terraform apply
           command: |
             terraform apply -auto-approve tfapply
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  terraform-docs:   
+    working_directory: /tmp/project  
+    docker:
+      - image: tgremlin82/terraform_ansible_aws:1.0
+    steps:
+      - attach_workspace:
+          at: /tmp/project
       - run:
           name: install terraform docs
           command: |
@@ -52,12 +64,19 @@ jobs:
             tar -xzf terraform-docs.tar.gz
             chmod +x terraform-docs
             mv terraform-docs /usr/local/bin/terraform-docs
-            terraform-docs
+            terraform-docs          
+      - run:
+          name: run terraformdocs
+          command: |
+            terraform-docs markdown table --output-file README.md --output-mode inject .
+      - store_artifacts:
+          path: /tmp/project/README.md
+          destination: README.md
       - persist_to_workspace:
           root: .
           paths:
             - .
-
+  
   plan-destroy: 
     working_directory: /tmp/project
     docker:
@@ -97,6 +116,9 @@ workflows:
       - apply:
           requires:
             - hold-apply
+      - terraform-docs:
+          requires:
+            - apply
       - plan-destroy:
           requires:
             - apply
