@@ -39,10 +39,30 @@ resource "aws_vpc" "demo" {
   }
 }
 
+resource "aws_subnet" "private1" {
+  cidr_block        = "10.0.1.0/24"
+  vpc_id = aws_vpc.demo.id
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "terraform-asg-public1"
+  }
+}
+
+resource "aws_subnet" "private2" {
+  cidr_block        = "10.0.2.0/24"
+  vpc_id = aws_vpc.demo.id
+  availability_zone = "us-east-1b"
+
+  tags = {
+    Name = "terraform-asg-public2"
+  }
+}
+
+
 resource "aws_subnet" "public1" {
   cidr_block        = "10.0.3.0/24"
   vpc_id = aws_vpc.demo.id
-  cidr_block = "10.0.3.0/24"
   availability_zone = "us-east-1a"
 
   tags = {
@@ -52,9 +72,7 @@ resource "aws_subnet" "public1" {
 
 resource "aws_subnet" "public2" {
   cidr_block        = "10.0.4.0/24"
-  availability_zone = "us-east-1d"
   vpc_id = aws_vpc.demo.id
-  cidr_block = "10.0.4.0/24"
   availability_zone = "us-east-1b"
 
   tags = {
