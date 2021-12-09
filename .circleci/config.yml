@@ -1,5 +1,6 @@
-version: 2
-
+version: 2.1
+orbs: 
+  aws-s3: circleci/aws-s3@3.0.0
 jobs:
   plan-apply:
     working_directory: /tmp/project
@@ -42,7 +43,7 @@ jobs:
       - attach_workspace:
           at: /tmp/project
       - run:
-          name: terraform
+          name: terraform apply
           command: |
             terraform apply -auto-approve tfapply
       - persist_to_workspace:
@@ -50,6 +51,64 @@ jobs:
           paths:
             - .
 
+  terraform-docs:   
+    working_directory: /tmp/project  
+    docker:
+      - image: tgremlin82/terraform_ansible_aws:1.0
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "e9:46:64:a4:43:8e:10:09:37:76:42:ca:03:86:2c:55"
+      - attach_workspace:
+          at: /tmp/project
+      - run:
+          name: install git
+          command: |
+            apt update
+            apt install git -y
+      - run:
+          name: run AWS configure
+          command: |
+            aws configure --profile $CIRCLE_BRANCH set region $AWS_DEFAULT_REGION
+            aws configure --profile $CIRCLE_BRANCH set access_key $AWS_ACCESS_KEY_ID
+            aws configure --profile $CIRCLE_BRANCH set secret_key $AWS_SECRET_ACCESS_KEY
+      - aws-s3/copy:
+          from: "s3://at-terraform-backends/terraform/awsDemoASG/terraform.tfstate"
+          to: /tmp/project
+      - run:
+          name: install terraform docs
+          command: |
+            curl -Lo ./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-$(uname)-amd64.tar.gz
+            tar -xzf terraform-docs.tar.gz
+            chmod +x terraform-docs
+            mv terraform-docs /usr/local/bin/terraform-docs
+            terraform-docs          
+      - run:
+          name: run terraformdocs
+          command: |
+            terraform-docs markdown document . --output-file ./README.md --output-mode replace
+      - store_artifacts:
+          path: /tmp/project/README.md
+          destination: README.md
+      - run:
+          name: commit README.md to github
+          command: |
+            git config user.email "$github_email"
+            git config user.name "CircleCI Job"
+            git checkout $CIRCLE_BRANCH
+            git add README.md
+            git commit --allow-empty -am "Automatic commit from CircleCI [skip ci]"
+            git push origin $CIRCLE_BRANCH
+      - run:
+          name: delete state file
+          command: |
+            rm terraform.tfstate
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  
   plan-destroy: 
     working_directory: /tmp/project
     docker:
@@ -89,6 +148,9 @@ workflows:
       - apply:
           requires:
             - hold-apply
+      - terraform-docs:
+          requires:
+            - apply
       - plan-destroy:
           requires:
             - apply
