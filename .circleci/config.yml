@@ -25,6 +25,9 @@ jobs:
             terraform init -input=false
             terraform plan -out tfapply
             terraform show -json tfapply > tfapply.json
+      - store_artifacts:
+          path: /tmp/project/tfapply.json
+          destination: tfapply.json      
       - persist_to_workspace:
           root: .
           paths:
