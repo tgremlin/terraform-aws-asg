@@ -18,6 +18,19 @@ provider "aws" {
   region = "us-east-1"
 }
 
+
+variable sqlpassword {
+  type        = string
+  description = "SQL DB admin password"
+  sensitive = true
+}
+
+variable sqlusername {
+  type        = string
+  description = "SQL DB admin username"
+  sensitive = true
+}
+
 resource "aws_vpc" "tutorial" {
   cidr_block = "10.0.0.0/16"
   instance_tenancy = "default"
