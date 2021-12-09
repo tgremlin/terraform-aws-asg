@@ -31,19 +31,6 @@ variable "sqlusername" {
   sensitive   = true
 }
 
-
-variable sqlpassword {
-  type        = string
-  description = "SQL DB admin password"
-  sensitive = true
-}
-
-variable sqlusername {
-  type        = string
-  description = "SQL DB admin username"
-  sensitive = true
-}
-
 resource "aws_vpc" "demo" {
   cidr_block = "10.0.0.0/16"
   instance_tenancy = "default"
@@ -75,29 +62,6 @@ resource "aws_subnet" "public2" {
   }
 }
 
-resource "aws_subnet" "private1" {
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = "us-east-1b"
-  vpc_id = aws_vpc.demo.id
-  cidr_block = "10.0.1.0/24"
-  availability_zone = "us-east-1a"
-
-  tags = {
-    Name = "terraform-asg-private1"
-  }
-}
-
-resource "aws_subnet" "private2" {
-  cidr_block        = "10.0.2.0/24"
-  availability_zone = "us-east-1c"
-  vpc_id = aws_vpc.demo.id
-  cidr_block = "10.0.2.0/24"
-  availability_zone = "us-east-1b"
-
-  tags = {
-    Name = "terraform-asg-private2"
-  }
-}
 
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.demo.id
@@ -183,7 +147,7 @@ resource "aws_security_group" "demo_db" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = [ aws_security_group.demo.id ]
+    security_groups = [ aws_security_group.demo_db.id ]
   }
 
   egress {
@@ -258,7 +222,7 @@ resource "aws_security_group" "instance" {
   }
 }
 
-resource "aws_lb" "demo" {
+resource "aws_lb" "alb" {
 
   name = var.alb_name
 
@@ -287,7 +251,7 @@ resource "aws_lb_target_group" "asg" {
   vpc_id   = aws_vpc.demo.id
 }
 
-resource "aws_security_group" "alb" {
+resource "aws_security_group" "alb_sg" {
 
   name   = var.alb_security_group_name
   vpc_id = aws_vpc.tutorial.id
