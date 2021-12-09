@@ -39,7 +39,7 @@ resource "aws_subnet" "public1" {
 resource "aws_subnet" "public2" {
   vpc_id = aws_vpc.demo.id
   cidr_block = "10.0.4.0/24"
-  availability_zone = "us-east-1d"
+  availability_zone = "us-east-1b"
 
   tags = {
     Name = "terraform-asg-public2"
@@ -49,7 +49,7 @@ resource "aws_subnet" "public2" {
 resource "aws_subnet" "private1" {
   vpc_id = aws_vpc.demo.id
   cidr_block = "10.0.1.0/24"
-  availability_zone = "us-east-1b"
+  availability_zone = "us-east-1a"
 
   tags = {
     Name = "terraform-asg-private1"
@@ -59,7 +59,7 @@ resource "aws_subnet" "private1" {
 resource "aws_subnet" "private2" {
   vpc_id = aws_vpc.demo.id
   cidr_block = "10.0.2.0/24"
-  availability_zone = "us-east-1c"
+  availability_zone = "us-east-1b"
 
   tags = {
     Name = "terraform-asg-private2"
@@ -186,7 +186,7 @@ resource "aws_launch_configuration" "demo" {
 resource "aws_autoscaling_group" "demo" {
   launch_configuration = aws_launch_configuration.demo.name
 
-  vpc_zone_identifier  = [ aws_subnet.public1.id ]
+  vpc_zone_identifier  = [ aws_subnet.public1.id, aws_subnet.public2.id ]
 
   target_group_arns = [aws_lb_target_group.asg.arn]
   health_check_type = "ELB"
