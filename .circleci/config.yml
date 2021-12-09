@@ -74,7 +74,7 @@ jobs:
             aws configure --profile $CIRCLE_BRANCH set access_key $AWS_ACCESS_KEY_ID
             aws configure --profile $CIRCLE_BRANCH set secret_key $AWS_SECRET_ACCESS_KEY
       - aws-s3/copy:
-          from: "https://at-terraform-backends.s3.amazonaws.com/terraform/awsDemoASG/terraform.tfstate"
+          from: "s3://at-terraform-backends/terraform/awsDemoASG/terraform.tfstate"
           to: /tmp/project
       - run:
           name: install terraform docs
