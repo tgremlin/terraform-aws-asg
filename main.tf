@@ -121,7 +121,6 @@ resource "aws_security_group" "tutorial" {
     from_port = 22
     to_port = 22
     protocol = "tcp"
-    # type = "ssh"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -129,7 +128,6 @@ resource "aws_security_group" "tutorial" {
     from_port = 80
     to_port = 80
     protocol = "tcp"
-    # type = "http"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -152,7 +150,6 @@ resource "aws_security_group" "tutorial_db" {
     from_port = 3306
     to_port = 3306
     protocol = "tcp"
-    # type = "MYSQL/Aurora"
     security_groups = [ aws_security_group.tutorial.id ]
   }
 
@@ -285,8 +282,8 @@ resource "aws_db_instance" "default" {
   engine_version       = "5.7"
   instance_class       = "db.t3.micro"
   name                 = "mydb"
-  username             = "foo"
-  password             = "foobarbaz"
+  username             = var.sqlusername
+  password             = var.sqlpassword
   parameter_group_name = "default.mysql5.7"
   skip_final_snapshot  = true
   db_subnet_group_name = aws_db_subnet_group.selected.name
@@ -295,7 +292,6 @@ resource "aws_db_instance" "default" {
 resource "aws_db_subnet_group" "selected" {
   name       = "main"
   subnet_ids = [ aws_subnet.private1.id, aws_subnet.private2.id ]
-  # module.vpc.private_subnets
 
   tags = {
     Name = "terraform tutorial DB subnet group"
