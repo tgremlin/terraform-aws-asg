@@ -271,8 +271,6 @@ resource "aws_lb_target_group" "asg" {
 
 resource "aws_security_group" "alb_sg" {
 
-  name   = var.alb_security_group_name
-  vpc_id = aws_vpc.tutorial.id
   name = var.alb_security_group_name
   vpc_id      = aws_vpc.demo.id
 
