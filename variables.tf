@@ -21,15 +21,3 @@ variable "alb_security_group_name" {
   type        = string
   default     = "terraform-example-alb"
 }
-
-variable sqlpassword {
-  type        = string
-  description = "SQL DB admin password"
-  sensitive = true
-}
-
-variable sqlusername {
-  type        = string
-  description = "SQL DB admin username"
-  sensitive = true
-}
