@@ -1,5 +1,6 @@
 version: 2
-
+orbs: 
+  aws-s3: circleci/aws-s3@3.0.0
 jobs:
   plan-apply:
     working_directory: /tmp/project
@@ -67,6 +68,15 @@ jobs:
             apt update
             apt install git -y
       - run:
+          name: run AWS configure
+          command: |
+            aws configure --profile $CIRCLE_BRANCH set region $AWS_DEFAULT_REGION
+            aws configure --profile $CIRCLE_BRANCH set access_key $AWS_ACCESS_KEY_ID
+            aws configure --profile $CIRCLE_BRANCH set secret_key $AWS_SECRET_ACCESS_KEY
+      - aws-s3/copy:
+          from: "https://at-terraform-backends.s3.amazonaws.com/terraform/awsDemoASG/terraform.tfstate"
+          to: /tmp/project
+      - run:
           name: install terraform docs
           command: |
             curl -Lo ./terraform-docs.tar.gz https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-$(uname)-amd64.tar.gz
@@ -77,8 +87,6 @@ jobs:
       - run:
           name: run terraformdocs
           command: |
-            pwd
-            ls -al
             terraform-docs markdown table --output-file README.md --output-mode inject .
       - store_artifacts:
           path: /tmp/project/README.md
@@ -92,6 +100,10 @@ jobs:
             git add README.md
             git commit --allow-empty -am "Automatic commit from CircleCI [skip ci]"
             git push origin $CIRCLE_BRANCH
+      - run:
+          name: delete state file
+          command: |
+            rm terraform.tfstate
       - persist_to_workspace:
           root: .
           paths:
