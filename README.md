@@ -19,12 +19,12 @@ No modules.
 
 The following resources are used by this module:
 
-- [aws_autoscaling_group.tutorial](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/autoscaling_group) (resource)
+- [aws_autoscaling_group.demo](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/autoscaling_group) (resource)
 - [aws_db_instance.default](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/db_instance) (resource)
 - [aws_db_subnet_group.selected](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/db_subnet_group) (resource)
 - [aws_internet_gateway.gw](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/internet_gateway) (resource)
-- [aws_launch_configuration.tutorial](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/launch_configuration) (resource)
-- [aws_lb.tutorial](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/lb) (resource)
+- [aws_launch_configuration.demo](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/launch_configuration) (resource)
+- [aws_lb.demo](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/lb) (resource)
 - [aws_lb_listener.http](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/lb_listener) (resource)
 - [aws_lb_target_group.asg](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/lb_target_group) (resource)
 - [aws_route.r](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/route) (resource)
@@ -34,14 +34,14 @@ The following resources are used by this module:
 - [aws_route_table_association.public1](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/route_table_association) (resource)
 - [aws_route_table_association.public2](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/route_table_association) (resource)
 - [aws_security_group.alb](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/security_group) (resource)
+- [aws_security_group.demo](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/security_group) (resource)
+- [aws_security_group.demo_db](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/security_group) (resource)
 - [aws_security_group.instance](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/security_group) (resource)
-- [aws_security_group.tutorial](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/security_group) (resource)
-- [aws_security_group.tutorial_db](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/security_group) (resource)
 - [aws_subnet.private1](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/subnet) (resource)
 - [aws_subnet.private2](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/subnet) (resource)
 - [aws_subnet.public1](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/subnet) (resource)
 - [aws_subnet.public2](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/subnet) (resource)
-- [aws_vpc.tutorial](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/vpc) (resource)
+- [aws_vpc.demo](https://registry.terraform.io/providers/hashicorp/aws/3.66.0/docs/resources/vpc) (resource)
 
 ## Required Inputs
 
