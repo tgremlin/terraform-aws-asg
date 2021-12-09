@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
   bucket = "at-terraform-backends"
-  key    = "terraform/awsASG/terraform.tfstate"
+  key    = "terraform/awsDemoASG/terraform.tfstate"
   region = "us-east-1"
   }
 }
@@ -18,7 +18,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_vpc" "tutorial" {
+resource "aws_vpc" "demo" {
   cidr_block = "10.0.0.0/16"
   instance_tenancy = "default"
   tags = {
@@ -27,7 +27,7 @@ resource "aws_vpc" "tutorial" {
 }
 
 resource "aws_subnet" "public1" {
-  vpc_id = aws_vpc.tutorial.id
+  vpc_id = aws_vpc.demo.id
   cidr_block = "10.0.3.0/24"
   availability_zone = "us-east-1a"
 
@@ -37,7 +37,7 @@ resource "aws_subnet" "public1" {
 }
 
 resource "aws_subnet" "public2" {
-  vpc_id = aws_vpc.tutorial.id
+  vpc_id = aws_vpc.demo.id
   cidr_block = "10.0.4.0/24"
   availability_zone = "us-east-1d"
 
@@ -47,7 +47,7 @@ resource "aws_subnet" "public2" {
 }
 
 resource "aws_subnet" "private1" {
-  vpc_id = aws_vpc.tutorial.id
+  vpc_id = aws_vpc.demo.id
   cidr_block = "10.0.1.0/24"
   availability_zone = "us-east-1b"
 
@@ -57,7 +57,7 @@ resource "aws_subnet" "private1" {
 }
 
 resource "aws_subnet" "private2" {
-  vpc_id = aws_vpc.tutorial.id
+  vpc_id = aws_vpc.demo.id
   cidr_block = "10.0.2.0/24"
   availability_zone = "us-east-1c"
 
@@ -67,7 +67,7 @@ resource "aws_subnet" "private2" {
 }
 
 resource "aws_internet_gateway" "gw" {
-  vpc_id = aws_vpc.tutorial.id
+  vpc_id = aws_vpc.demo.id
 
   tags = {
     Name = "terraform-asg-ig"
@@ -75,7 +75,7 @@ resource "aws_internet_gateway" "gw" {
 }
 
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.tutorial.id
+  vpc_id = aws_vpc.demo.id
 
   tags = {
     Name = "public-route"
@@ -92,12 +92,12 @@ resource "aws_route" "r" {
 
 resource "aws_route_table_association" "private1" {
   subnet_id      = aws_subnet.private1.id
-  route_table_id = aws_vpc.tutorial.default_route_table_id
+  route_table_id = aws_vpc.demo.default_route_table_id
 }
 
 resource "aws_route_table_association" "private2" {
   subnet_id      = aws_subnet.private2.id
-  route_table_id = aws_vpc.tutorial.default_route_table_id
+  route_table_id = aws_vpc.demo.default_route_table_id
 }
 
 resource "aws_route_table_association" "public1" {
@@ -111,8 +111,8 @@ resource "aws_route_table_association" "public2" {
 }
 
 
-resource "aws_security_group" "tutorial" {
-  vpc_id = aws_vpc.tutorial.id
+resource "aws_security_group" "demo" {
+  vpc_id = aws_vpc.demo.id
   tags = {
     Name = "terraform-asg-securitygroup"
   }
@@ -142,8 +142,8 @@ resource "aws_security_group" "tutorial" {
   }
 }
 
-resource "aws_security_group" "tutorial_db" {
-  vpc_id = aws_vpc.tutorial.id
+resource "aws_security_group" "demo_db" {
+  vpc_id = aws_vpc.demo.id
   tags = {
     Name = "terraform-asg-db-securitygroup"
   }
@@ -153,7 +153,7 @@ resource "aws_security_group" "tutorial_db" {
     to_port = 3306
     protocol = "tcp"
     # type = "MYSQL/Aurora"
-    security_groups = [ aws_security_group.tutorial.id ]
+    security_groups = [ aws_security_group.demo.id ]
   }
 
   egress {
@@ -166,7 +166,7 @@ resource "aws_security_group" "tutorial_db" {
 }
 
 
-resource "aws_launch_configuration" "tutorial" {
+resource "aws_launch_configuration" "demo" {
   image_id        = "ami-0ed9277fb7eb570c9"
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance.id]
@@ -183,8 +183,8 @@ resource "aws_launch_configuration" "tutorial" {
   }
 }
 
-resource "aws_autoscaling_group" "tutorial" {
-  launch_configuration = aws_launch_configuration.tutorial.name
+resource "aws_autoscaling_group" "demo" {
+  launch_configuration = aws_launch_configuration.demo.name
 
   vpc_zone_identifier  = [ aws_subnet.public1.id ]
 
@@ -203,7 +203,7 @@ resource "aws_autoscaling_group" "tutorial" {
 
 resource "aws_security_group" "instance" {
   name = var.instance_security_group_name
-  vpc_id      = aws_vpc.tutorial.id
+  vpc_id      = aws_vpc.demo.id
 
   ingress {
     from_port   = var.server_port
@@ -228,7 +228,7 @@ resource "aws_security_group" "instance" {
   }
 }
 
-resource "aws_lb" "tutorial" {
+resource "aws_lb" "demo" {
 
   name               = var.alb_name
 
@@ -238,7 +238,7 @@ resource "aws_lb" "tutorial" {
 }
 
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.tutorial.arn
+  load_balancer_arn = aws_lb.demo.arn
   port              = 80
   protocol          = "HTTP"
 
@@ -254,13 +254,13 @@ resource "aws_lb_target_group" "asg" {
 
   port     = var.server_port
   protocol = "HTTP"
-  vpc_id   = aws_vpc.tutorial.id
+  vpc_id   = aws_vpc.demo.id
 }
 
 resource "aws_security_group" "alb" {
 
   name = var.alb_security_group_name
-  vpc_id      = aws_vpc.tutorial.id
+  vpc_id      = aws_vpc.demo.id
 
   # Allow inbound HTTP requests
   ingress {
@@ -298,6 +298,6 @@ resource "aws_db_subnet_group" "selected" {
   # module.vpc.private_subnets
 
   tags = {
-    Name = "terraform tutorial DB subnet group"
+    Name = "terraform demo DB subnet group"
   }
 }
