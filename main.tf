@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
+      source = "hashicorp/aws"
       version = "3.66.0"
     }
   }
@@ -15,20 +15,19 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region  = "us-east-1"
+  region = "us-east-1"
 }
 
-
-variable "sqlpassword" {
+variable sqlpassword {
   type        = string
   description = "SQL DB admin password"
-  sensitive   = true
+  sensitive = true
 }
 
-variable "sqlusername" {
+variable sqlusername {
   type        = string
   description = "SQL DB admin username"
-  sensitive   = true
+  sensitive = true
 }
 
 resource "aws_vpc" "demo" {
@@ -39,30 +38,9 @@ resource "aws_vpc" "demo" {
   }
 }
 
-resource "aws_subnet" "private1" {
-  cidr_block        = "10.0.1.0/24"
-  vpc_id = aws_vpc.demo.id
-  availability_zone = "us-east-1a"
-
-  tags = {
-    Name = "terraform-asg-public1"
-  }
-}
-
-resource "aws_subnet" "private2" {
-  cidr_block        = "10.0.2.0/24"
-  vpc_id = aws_vpc.demo.id
-  availability_zone = "us-east-1b"
-
-  tags = {
-    Name = "terraform-asg-public2"
-  }
-}
-
-
 resource "aws_subnet" "public1" {
-  cidr_block        = "10.0.3.0/24"
   vpc_id = aws_vpc.demo.id
+  cidr_block = "10.0.3.0/24"
   availability_zone = "us-east-1a"
 
   tags = {
@@ -71,8 +49,8 @@ resource "aws_subnet" "public1" {
 }
 
 resource "aws_subnet" "public2" {
-  cidr_block        = "10.0.4.0/24"
   vpc_id = aws_vpc.demo.id
+  cidr_block = "10.0.4.0/24"
   availability_zone = "us-east-1b"
 
   tags = {
@@ -80,6 +58,25 @@ resource "aws_subnet" "public2" {
   }
 }
 
+resource "aws_subnet" "private1" {
+  vpc_id = aws_vpc.demo.id
+  cidr_block = "10.0.1.0/24"
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "terraform-asg-private1"
+  }
+}
+
+resource "aws_subnet" "private2" {
+  vpc_id = aws_vpc.demo.id
+  cidr_block = "10.0.2.0/24"
+  availability_zone = "us-east-1b"
+
+  tags = {
+    Name = "terraform-asg-private2"
+  }
+}
 
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.demo.id
@@ -99,10 +96,10 @@ resource "aws_route_table" "public" {
 
 
 resource "aws_route" "r" {
-  route_table_id         = aws_route_table.public.id
-  destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.gw.id
-  depends_on             = [aws_route_table.public]
+  route_table_id            = aws_route_table.public.id
+  destination_cidr_block    = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.gw.id
+  depends_on                = [aws_route_table.public]
 }
 
 resource "aws_route_table_association" "private1" {
@@ -133,16 +130,16 @@ resource "aws_security_group" "demo" {
   }
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -162,10 +159,10 @@ resource "aws_security_group" "demo_db" {
   }
 
   ingress {
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = [ aws_security_group.demo_db.id ]
+    from_port = 3306
+    to_port = 3306
+    protocol = "tcp"
+    security_groups = [ aws_security_group.demo.id ]
   }
 
   egress {
@@ -183,10 +180,10 @@ resource "aws_launch_configuration" "demo" {
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.instance.id]
 
-  user_data = file("init.sh")
+  user_data = "${file("init.sh")}"
 
   associate_public_ip_address = true
-  key_name                    = "ssh_key"
+  key_name = "ssh_key"
 
   # Required when using a launch configuration with an auto scaling group.
   # https://www.terraform.io/docs/providers/aws/r/launch_configuration.html
@@ -240,22 +237,22 @@ resource "aws_security_group" "instance" {
   }
 }
 
-resource "aws_lb" "alb" {
+resource "aws_lb" "demo" {
 
-  name = var.alb_name
+  name               = var.alb_name
 
   load_balancer_type = "application"
   subnets            = [aws_subnet.public1.id, aws_subnet.public2.id]
-  security_groups    = [aws_security_group.alb_sg.id]
+  security_groups    = [aws_security_group.alb.id]
 }
 
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.alb.arn
+  load_balancer_arn = aws_lb.demo.arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
+    type = "forward"
     target_group_arn = aws_lb_target_group.asg.arn
   }
 }
@@ -269,7 +266,7 @@ resource "aws_lb_target_group" "asg" {
   vpc_id   = aws_vpc.demo.id
 }
 
-resource "aws_security_group" "alb_sg" {
+resource "aws_security_group" "alb" {
 
   name = var.alb_security_group_name
   vpc_id      = aws_vpc.demo.id
@@ -306,7 +303,7 @@ resource "aws_db_instance" "default" {
 
 resource "aws_db_subnet_group" "selected" {
   name       = "main"
-  subnet_ids = [aws_subnet.private1.id, aws_subnet.private2.id]
+  subnet_ids = [ aws_subnet.private1.id, aws_subnet.private2.id ]
 
   tags = {
     Name = "terraform demo DB subnet group"
