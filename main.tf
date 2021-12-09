@@ -8,7 +8,7 @@ terraform {
 
   backend "s3" {
   bucket = "at-terraform-backends"
-  key    = "terraform/awsASG/terraform.tfstate"
+  key    = "terraform/awsDemoASG/terraform.tfstate"
   region = "us-east-1"
   }
 }
