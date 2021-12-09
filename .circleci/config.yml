@@ -87,7 +87,7 @@ jobs:
       - run:
           name: run terraformdocs
           command: |
-            terraform-docs markdown document . README.md ./README.md
+            terraform-docs markdown document . --output-file ./README.md
       - store_artifacts:
           path: /tmp/project/README.md
           destination: README.md
