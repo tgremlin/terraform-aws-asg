@@ -124,4 +124,4 @@ Description: The domain name of the load balancer
 <!-- END_TF_DOCS -->
 
 Dependency graph:
-![Graph](https://github.com/tgremlin/terraform-aws-asg/blob/main/ASG%20graph%20.svg)
+![Graph](/images/ASGgraph.svg)
