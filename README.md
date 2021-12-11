@@ -24,6 +24,7 @@ This repository will generate 2 web servers using a launch configuration templat
 10. Enter the URL into a browser for a "Hello World" message and the internal IP address of the EC2 instance. Refreshing
     your browser will show the ALB is load-balancing between the two instances. ![AWSALB1](/images/aws1.png) ![AWSALB2](/images/aws2.png)
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -85,3 +86,9 @@ No modules.
 |------|-------------|
 | <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | The domain name of the load balancer |
 [comment]: # (End TF Docs)
+The following outputs are exported:
+
+### <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name)
+
+Description: The domain name of the load balancer
+<!-- END_TF_DOCS -->
