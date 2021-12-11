@@ -16,8 +16,10 @@ This repository will generate 2 web servers using a launch configuration templat
   ![CircleCIEnvironmentVariables](/images/circleci2.png)
 7. By default, CircleCI pipeline will execute on any commit to the repository. If you do not wish for it to run on every commit, you can go to "Project Settings --> Advanced"      and toggle the "Only build on pull requests". ![CircleCIOnlyBuildPR](/images/circleci3.png)
 8. This pipeline is built to have multiple stages, two of which will require a human approval to proceed to next step (Apply and Destroy). This gives a chance to review changes 
-   to the infrastructure before proceeding. Click on the "Workflow" link in the projects dashboard to access the approval stages. The output of each of the deployment runners      will also be available by clicking on the step. On the following screen, each section can be clicked on to see the output of the commands.![CircleCIWorkflow](/images/circleci4.png)
-9. After the pipleine successfully completes, the URL for the ALB (application load balancer) will be outputed.
+   to the infrastructure before proceeding. Click on the "Workflow" link in the projects dashboard to access the approval stages. The output of each of the deployment runners      will also be available by clicking on the step. On the following screen, each section can be clicked on to see the output of the commands.![CircleCIWorkflow](/images/circleci4.png) ![CircleCIWorkflowOutput](/images/circleci5.png) ![CircleCIApprove](/images/circleci6.png)
+9. After the pipleine successfully completes, the URL for the ALB (application load balancer) will be outputed. ![CircleCIOutput](/images/circleci7.png)
+10. Enter the URL into a browser for a "Hello World" message and the internal IP address of the EC2 instance. Refreshing 
+    your browser will show the ALB is load-balancing between the two instances. ![AWSALB1](/images/aws1.png) ![AWSALB2](/images/aws2.png)
 
 
 <!-- BEGIN_TF_DOCS -->
