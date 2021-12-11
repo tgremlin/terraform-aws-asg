@@ -83,11 +83,10 @@ jobs:
             tar -xzf terraform-docs.tar.gz
             chmod +x terraform-docs
             mv terraform-docs /usr/local/bin/terraform-docs
-            terraform-docs          
       - run:
           name: run terraformdocs
           command: |
-            terraform-docs markdown document . --output-file ./README.md --output-mode replace
+            terraform-docs --config .tfdocs-config.yml .
       - store_artifacts:
           path: /tmp/project/README.md
           destination: README.md
