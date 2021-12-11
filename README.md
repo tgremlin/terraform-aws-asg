@@ -5,7 +5,7 @@ This repository will generate 2 web servers using a launch configuration templat
 1. A [CircleCI Account](https://circleci.com/)
 2. [AWS IAM User](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) with proper permissions (policy will be included in future update)
 3. Setup the [CircleCI project](https://circleci.com/docs/2.0/project-build/)
-4. After you have followed the project, click in the top right corner on the gear icon of the project (Project Settings)
+4. After you have followed the project, click in the top right corner on the gear icon of the project (Project Settings) ![CircleCIProjectSettings](/images/circleci1.png)
 5. Click "Environment Variables" and the the following 5 environment variables:
   - AWS_ACCESS_KEY_ID
   - AWS_SECRET_ACCESS_KEY
