@@ -86,7 +86,7 @@ jobs:
       - run:
           name: run terraformdocs
           command: |
-            terraform-docs -c .tfdocs-config.yml .
+            terraform-docs --config .tfdocs-config.yml .
       - store_artifacts:
           path: /tmp/project/README.md
           destination: README.md
