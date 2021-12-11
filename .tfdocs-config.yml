@@ -1,4 +1,4 @@
-formatter: "markdown document" # this is required
+formatter: "markdown" # this is required
 
 version: ""
 
@@ -10,12 +10,12 @@ recursive:
   path: modules
 
 output:
-  file: "./README.md"
+  file: README.md
   mode: inject
   template: |-
-    <!-- BEGIN_TF_DOCS -->
+    [comment]: # (Begin TF Docs)
     {{ .Content }}
-    <!-- END_TF_DOCS -->\n
+    [comment]: # (End TF Docs)
 
 output-values:
   enabled: false
