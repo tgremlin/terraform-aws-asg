@@ -45,14 +45,14 @@ No modules.
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_alb_name"></a> [alb\_name](#input\_alb\_name) | The name of the ALB | `string` | `"terraform-asg-example"` | no |
-| <a name="input_alb_security_group_name"></a> [alb\_security\_group\_name](#input\_alb\_security\_group\_name) | The name of the security group for the ALB | `string` | `"terraform-example-alb"` | no |
-| <a name="input_instance_security_group_name"></a> [instance\_security\_group\_name](#input\_instance\_security\_group\_name) | The name of the security group for the EC2 Instances | `string` | `"terraform-example-instance"` | no |
-| <a name="input_server_port"></a> [server\_port](#input\_server\_port) | The port the server will use for HTTP requests | `number` | `80` | no |
-| <a name="input_sqlpassword"></a> [sqlpassword](#input\_sqlpassword) | SQL DB admin password | `string` | n/a | yes |
-| <a name="input_sqlusername"></a> [sqlusername](#input\_sqlusername) | SQL DB admin username | `string` | n/a | yes |
+| Name | Description | Type | Required |
+|------|-------------|------|:--------:|
+| <a name="input_alb_name"></a> [alb\_name](#input\_alb\_name) | The name of the ALB | `string` | no |
+| <a name="input_alb_security_group_name"></a> [alb\_security\_group\_name](#input\_alb\_security\_group\_name) | The name of the security group for the ALB | `string` | no |
+| <a name="input_instance_security_group_name"></a> [instance\_security\_group\_name](#input\_instance\_security\_group\_name) | The name of the security group for the EC2 Instances | `string` | no |
+| <a name="input_server_port"></a> [server\_port](#input\_server\_port) | The port the server will use for HTTP requests | `number` | no |
+| <a name="input_sqlpassword"></a> [sqlpassword](#input\_sqlpassword) | SQL DB admin password | `string` | yes |
+| <a name="input_sqlusername"></a> [sqlusername](#input\_sqlusername) | SQL DB admin username | `string` | yes |
 
 ## Outputs
 
