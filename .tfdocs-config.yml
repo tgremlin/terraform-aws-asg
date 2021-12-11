@@ -5,21 +5,14 @@ version: ""
 header-from: main.tf
 footer-from: ""
 
-recursive:
-  enabled: false
-  path: modules
 
 output:
   file: README.md
-  mode: inject
+  mode: replace
   template: |-
     [comment]: # (Begin TF Docs)
     {{ .Content }}
     [comment]: # (End TF Docs)
-
-output-values:
-  enabled: false
-  from: ""
 
 sort:
   enabled: true
