@@ -126,7 +126,7 @@ The following outputs are exported:
 ### <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name)
 
 Description: The domain name of the load balancer
-<!-- END_TF_DOCS -->
+<!-- END_TF_DOCS -->\n
 
 Dependency graph:
 ![Graph](/images/ASGgraph.svg)
