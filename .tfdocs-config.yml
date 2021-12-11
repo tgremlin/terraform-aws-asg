@@ -15,7 +15,7 @@ output:
   template: |-
     <!-- BEGIN_TF_DOCS -->
     {{ .Content }}
-    <!-- END_TF_DOCS -->    
+    <!-- END_TF_DOCS -->\n
 
 output-values:
   enabled: false
