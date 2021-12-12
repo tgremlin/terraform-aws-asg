@@ -23,12 +23,12 @@ provider "aws" {
 module "key-pair" {
   source  = "terraform-aws-modules/key-pair/aws"
   version = "1.0.0"
-  
-  key_name = "deployer-key"
-  create_key_pair = true
-  public_key = var.deployer_key_pub
 
-} 
+  key_name        = "deployer-key"
+  create_key_pair = true
+  public_key      = var.deployer_key_pub
+
+}
 
 
 variable "sqlpassword" {
