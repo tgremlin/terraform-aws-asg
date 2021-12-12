@@ -3,7 +3,7 @@ formatter: "markdown" # this is required
 version: ""
 
 header-from: main.tf
-footer-from: ""
+footer-from: main.tf
 
 
 output:
