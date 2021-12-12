@@ -83,10 +83,4 @@ No modules.
 |------|-------------|
 | <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | The domain name of the load balancer |
 
-# Diagrams
-Below is a high level diagram of the pipeline.
-![InfraDiagram](/images/Terraform-CircleCI-AWS-ASG.svg)
-
-Below is a dependency graph.
-![DependencyGraph](/images/ASGgraph.svg)  
 [comment]: # (End TF Docs)
