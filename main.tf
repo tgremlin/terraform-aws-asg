@@ -26,6 +26,7 @@ module "key-pair" {
   
   key_name = "deployer-key"
   create_key_pair = true
+  public_key = var.deployer_key_pub
 
 } 
 

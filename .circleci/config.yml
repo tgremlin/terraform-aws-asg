@@ -25,7 +25,7 @@ jobs:
           command: |
             terraform fmt -recursive .
             terraform init -input=false
-            terraform plan -var="sqlpassword=$sqlpassword" -var="sqlusername=$sqlusername" -out tfapply
+            terraform plan -var="sqlpassword=$sqlpassword" -var="sqlusername=$sqlusername" -var="deployer_key_pub= $deployer_key_pub" -out tfapply
             terraform graph | dot -Tsvg > graph.svg
       - store_artifacts:
           path: /tmp/project/graph.svg
@@ -118,7 +118,7 @@ jobs:
       - run:
           name: terraform create destroy plan
           command: |
-            terraform plan -destroy -var="sqlpassword=$sqlpassword" -var="sqlusername=$sqlusername" -out tfdestroy
+            terraform plan -destroy -var="sqlpassword=$sqlpassword" -var="sqlusername=$sqlusername" -var="deployer_key_pub= $deployer_key_pub" -out tfdestroy
       - persist_to_workspace:
           root: .
           paths:
