@@ -21,3 +21,8 @@ variable "alb_security_group_name" {
   type        = string
   default     = "terraform-example-alb"
 }
+
+variable "deployer_key_pub" {
+  type        = string
+  description = "Contents of the public key used for SSH access to running web servers"
+}
