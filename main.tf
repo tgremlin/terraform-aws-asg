@@ -218,7 +218,7 @@ resource "aws_launch_configuration" "demo" {
   }
 }
 
-resource "aws_auto-scaling_group" "demo" {
+resource "aws_autoscaling_group" "demo" {
   launch_configuration = aws_launch_configuration.demo.name
 
   vpc_zone_identifier = [aws_subnet.public1.id, aws_subnet.public2.id]
