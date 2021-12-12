@@ -79,6 +79,11 @@ jobs:
           name: run terraformdocs
           command: |
             terraform-docs --config .tfdocs-config.yml .
+      - run:
+          name: checking artifacts
+          command: |
+            pwd
+            ls -al
       - store_artifacts:
           path: /tmp/project/README.md
           destination: README.md
