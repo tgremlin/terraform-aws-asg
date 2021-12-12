@@ -1,9 +1,7 @@
 [comment]: # (Begin TF Docs)
-# Main title
+# Terraform AWS Web Server with auto-scaling and load-balancer
 
-# Terraform AWS Web Server with autoscaling and loadbalancer
-
-This repository will generate 2 web servers using a launch configuration template and an autoscaling group into a cusotm VPC. Pull requests and merges to the master branch will trigger a pipeline in CircleCI that will apply the resources to AWS. To use this repository, you will need the following:
+This repository will generate 2 web servers using a launch configuration template and an auto-scaling group into a custom VPC. Pull requests and merges to the master branch will trigger a pipeline in CircleCI that will apply the resources to AWS. To use this repository, you will need the following:
 
 1. A [CircleCI Account](https://circleci.com/)
 2. [AWS IAM User](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) with proper permissions (policy will be included in future update)
@@ -20,11 +18,10 @@ This repository will generate 2 web servers using a launch configuration templat
 7. By default, CircleCI pipeline will execute on any commit to the repository. If you do not wish for it to run on every commit, you can go to "Project Settings --> Advanced"      and toggle the "Only build on pull requests". ![CircleCIOnlyBuildPR](/images/circleci3.png)
 8. This pipeline is built to have multiple stages, two of which will require a human approval to proceed to next step (Apply and Destroy). This gives a chance to review changes
   to the infrastructure before proceeding. Click on the "Workflow" link in the projects dashboard to access the approval stages. The output of each of the deployment runners      will also be available by clicking on the step. On the following screen, each section can be clicked on to see the output of the commands.![CircleCIWorkflow](/images/circleci4.png) ![CircleCIWorkflowOutput](/images/circleci5.png) ![CircleCIApprove](/images/circleci6.png)
-9. After the pipleine successfully completes, the URL for the ALB (application load balancer) will be outputed. ![CircleCIOutput](/images/circleci7.png)
+9. After the pipeline successfully completes, the URL for the ALB (application load balancer) will be outputed. ![CircleCIOutput](/images/circleci7.png)
 10. Enter the URL into a browser for a "Hello World" message and the internal IP address of the EC2 instance. Refreshing
     your browser will show the ALB is load-balancing between the two instances. ![AWSALB1](/images/aws1.png) ![AWSALB2](/images/aws2.png)
 
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -71,14 +68,14 @@ No modules.
 
 ## Inputs
 
-| Name | Description | Type | Required |
-|------|-------------|------|:--------:|
-| <a name="input_alb_name"></a> [alb\_name](#input\_alb\_name) | The name of the ALB | `string` | no |
-| <a name="input_alb_security_group_name"></a> [alb\_security\_group\_name](#input\_alb\_security\_group\_name) | The name of the security group for the ALB | `string` | no |
-| <a name="input_instance_security_group_name"></a> [instance\_security\_group\_name](#input\_instance\_security\_group\_name) | The name of the security group for the EC2 Instances | `string` | no |
-| <a name="input_server_port"></a> [server\_port](#input\_server\_port) | The port the server will use for HTTP requests | `number` | no |
-| <a name="input_sqlpassword"></a> [sqlpassword](#input\_sqlpassword) | SQL DB admin password | `string` | yes |
-| <a name="input_sqlusername"></a> [sqlusername](#input\_sqlusername) | SQL DB admin username | `string` | yes |
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_alb_name"></a> [alb\_name](#input\_alb\_name) | The name of the ALB | `string` | `"terraform-asg-example"` | no |
+| <a name="input_alb_security_group_name"></a> [alb\_security\_group\_name](#input\_alb\_security\_group\_name) | The name of the security group for the ALB | `string` | `"terraform-example-alb"` | no |
+| <a name="input_instance_security_group_name"></a> [instance\_security\_group\_name](#input\_instance\_security\_group\_name) | The name of the security group for the EC2 Instances | `string` | `"terraform-example-instance"` | no |
+| <a name="input_server_port"></a> [server\_port](#input\_server\_port) | The port the server will use for HTTP requests | `number` | `80` | no |
+| <a name="input_sqlpassword"></a> [sqlpassword](#input\_sqlpassword) | SQL DB admin password | `string` | n/a | yes |
+| <a name="input_sqlusername"></a> [sqlusername](#input\_sqlusername) | SQL DB admin username | `string` | n/a | yes |
 
 ## Outputs
 
@@ -86,9 +83,3 @@ No modules.
 |------|-------------|
 | <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | The domain name of the load balancer |
 [comment]: # (End TF Docs)
-The following outputs are exported:
-
-### <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name)
-
-Description: The domain name of the load balancer
-<!-- END_TF_DOCS -->
