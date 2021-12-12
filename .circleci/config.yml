@@ -85,12 +85,17 @@ jobs:
       - run:
           name: commit README.md to github
           command: |
-            git config user.email "$github_email"
-            git config user.name "CircleCI Job"
-            git checkout $CIRCLE_BRANCH
-            git add README.md
-            git commit --allow-empty -am "Automatic commit from CircleCI [skip ci]"
-            git push origin $CIRCLE_BRANCH
+            if [[ "${CIRCLE_USERNAME}" = '<account>' && -z "${CIRCLE_PULL_REQUEST}"]]
+            then
+              echo "Commiting to GitHub"
+              git config user.email "$github_email"
+              git config user.name "CircleCI Job"
+              git checkout $CIRCLE_BRANCH
+              git add README.md
+              git commit --allow-empty -am "Automatic commit from CircleCI [skip ci]"
+              git push origin $CIRCLE_BRANCH
+            else
+              echo "Not committing to GitHub"
       - persist_to_workspace:
           root: .
           paths:
