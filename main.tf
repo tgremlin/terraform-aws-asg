@@ -195,7 +195,7 @@ resource "aws_launch_configuration" "demo" {
   user_data = file("init.sh")
 
   associate_public_ip_address = true
-  key_name                    = module.key-pair.key_pair_name
+  key_name                    = module.key-pair.key_pair_key_name
 
   # Required when using a launch configuration with an auto scaling group.
   # https://www.terraform.io/docs/providers/aws/r/launch_configuration.html

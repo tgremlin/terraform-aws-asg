@@ -5,5 +5,5 @@ output "alb_dns_name" {
 
 output "key_pair_key_name" {
   description = "The key pair name."
-  value       = module.key_pair.key_pair_key_name
+  value       = module.key-pair.key_pair_key_name
 }
