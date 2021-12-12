@@ -87,6 +87,9 @@ jobs:
       - store_artifacts:
           path: /tmp/project/README.md
           destination: README.md
+      - store_artifacts:
+          path: /tmp/project/images/ASGgraph.svg
+          destination: ASGgraph.svg
       - run:
           name: commit README.md to github
           command: |
@@ -101,6 +104,7 @@ jobs:
               git add README.md
               git add /tmp/project/images/ASGgraph.svg
               git commit --allow-empty -am "Automatic commit from CircleCI [skip ci]"
+              ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
               git push origin $CIRCLE_BRANCH              
             fi
       - persist_to_workspace:
