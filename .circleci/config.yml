@@ -55,6 +55,9 @@ jobs:
       - image: tgremlin82/terraform_ansible_aws:1.0
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "e9:46:64:a4:43:8e:10:09:37:76:42:ca:03:86:2c:55"      
       - attach_workspace:
           at: /tmp/project
       - run:
@@ -104,7 +107,6 @@ jobs:
               git add README.md
               git add /tmp/project/images/ASGgraph.svg
               git commit --allow-empty -am "Automatic commit from CircleCI [skip ci]"
-              ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
               git push origin $CIRCLE_BRANCH              
             fi
       - persist_to_workspace:
