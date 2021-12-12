@@ -25,7 +25,8 @@ module "key-pair" {
   version = "1.0.0"
   
   key_name = "deployer-key"
-  public_key = tls_private_key.this.public_key_openssh
+  create_key_pair = true
+
 } 
 
 

@@ -3,6 +3,7 @@ output "alb_dns_name" {
   description = "The domain name of the load balancer"
 }
 
-# output "vpc_id" {
-#   value = module.vpc.vpc_id
-# }
+output "key_pair_key_name" {
+  description = "The key pair name."
+  value       = module.key_pair.key_pair_key_name
+}
