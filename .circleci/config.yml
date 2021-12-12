@@ -85,7 +85,7 @@ jobs:
       - run:
           name: commit README.md to github
           command: |
-            if [[ "${CIRCLE_USERNAME}" = '<account>' && -z "${CIRCLE_PULL_REQUEST}"]]
+            if [[ -z "${CIRCLE_PULL_REQUEST}" ]]
             then
               echo "Commiting to GitHub"
               git config user.email "$github_email"
