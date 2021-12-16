@@ -1,6 +1,9 @@
 [comment]: # (Begin TF Docs)
 # Terraform AWS Web Server with auto-scaling and load-balancer
 
+Below is a high level diagram of the pipeline.
+![InfraDiagram](/images/Terraform-CircleCI-AWS-ASG.svg)
+
  This repository will generate 2 web servers using a launch configuration template and an auto-scaling group into a custom VPC. Pull requests and merges to the master branch will trigger a pipeline in CircleCI that will apply the resources to AWS. To use this repository, you will need the following:
 
 1. A [CircleCI Account](https://circleci.com/)
@@ -88,9 +91,6 @@
 | <a name="output_key_pair_key_name"></a> [key\_pair\_key\_name](#output\_key\_pair\_key\_name) | The key pair name. |
 
 # Diagrams
-Below is a high level diagram of the pipeline.
-![InfraDiagram](/images/Terraform-CircleCI-AWS-ASG.svg)
-
 Below is a dependency graph.
 ![DependencyGraph](/images/ASGgraph.svg)  
 [comment]: # (End TF Docs)
